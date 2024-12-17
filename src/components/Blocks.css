@@ -1,0 +1,47 @@
+.block {
+    font-family: 'Didot', serif;
+}
+
+.card-hover:hover {
+    transform: scale(1.07);
+}
+
+.block-name {
+    font-size: 4vw;
+}
+
+.info-text {
+    font-size: 1.5vw;
+}
+
+.block-text {
+    font-size: 2vw;
+}
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+@media (max-width: 1024px) {
+    .button-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .button-container {
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+    
+}
+
+@media (max-width: 480px) {
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}

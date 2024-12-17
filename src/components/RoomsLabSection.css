@@ -1,0 +1,9 @@
+.icon:hover{
+    border: 2px solid black;
+    cursor: pointer;
+    color: black;
+}
+h5{
+    color: white;
+    text-decoration: none;
+}
