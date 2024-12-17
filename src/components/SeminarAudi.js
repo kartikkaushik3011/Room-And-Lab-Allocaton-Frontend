@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import RoomLabSection from "./RoomLabSection";
 
 function SeminarAudi() {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const { block_code } = useParams();
     const [bookingData, setBookingData] = useState({});
     const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ function SeminarAudi() {
         setError(null);
 
         axios
-            .get("/seminarAudiData")
+            .get(`${apiUrl}/seminarAudiData`)
             .then((response) => {
                 setBookingData(response.data);
                 setLoading(false);
@@ -44,7 +45,7 @@ function SeminarAudi() {
                 setLoading(false);
                 console.error(err);
             });
-    }, []);
+    }, [apiUrl]);
 
     if (loading) return <p>Loading seminar booking data...</p>;
     if (error) return <p>{error}</p>;

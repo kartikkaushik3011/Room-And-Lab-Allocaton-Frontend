@@ -5,6 +5,7 @@ import axios from "axios";
 import RoomLabSection from "./RoomLabSection";
 
 function Rooms() {
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const { place, block_code } = useParams();
     const blocks = {
         ab: "Aryabhatta",
@@ -28,7 +29,7 @@ function Rooms() {
     useEffect(() => {
         setLoading(true);
         axios
-            .get(`/roomData/${block_code}`)
+            .get(`${apiUrl}/${block_code}`)
             .then((response) => {
                 setRoomData(response.data);
                 setLoading(false);
@@ -37,7 +38,7 @@ function Rooms() {
                 console.error(err);
                 setLoading(false);
             });
-    }, [block_code]);
+    }, [block_code,apiUrl]);
 
     if (loading) return <p>Loading rooms...</p>;
 

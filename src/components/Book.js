@@ -4,6 +4,7 @@ import axios from 'axios';
 import formImage from "./assets/abes-logo.png"
 
 function Book() {
+  const apiUrl = process.env.REACT_APP_BACKEND_URL;
   const { room_no, block_code, place, slot, day } = useParams();
   const [formData, setFormData] = useState({ faculty_name: "", subject_code: "" });
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ function Book() {
       return;
     }
     axios
-      .post(`/book/${place}/${block_code}/${room_no}/${day}/${slot}`, formData)
+      .post(`${apiUrl}/book/${place}/${block_code}/${room_no}/${day}/${slot}`, formData)
       .then(() => {
         setFormData({ faculty_name: "", subject_code: "" });
         navigate(`/confirmation/${place}/${block_code}/${room_no}/${day}/${slot}`);
