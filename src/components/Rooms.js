@@ -29,7 +29,7 @@ function Rooms() {
     useEffect(() => {
         setLoading(true);
         axios
-            .get(`${apiUrl}/${block_code}`)
+            .get(`${apiUrl}/roomData/${block_code}`)
             .then((response) => {
                 setRoomData(response.data);
                 setLoading(false);
