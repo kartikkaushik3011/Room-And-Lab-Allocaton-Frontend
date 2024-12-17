@@ -28,7 +28,7 @@ function Rooms() {
     useEffect(() => {
         setLoading(true);
         axios
-            .get(`https://room-and-lab-allocation-backend-1.onrender.com//roomData/${block_code}`)
+            .get(`/roomData/${block_code}`)
             .then((response) => {
                 setRoomData(response.data);
                 setLoading(false);

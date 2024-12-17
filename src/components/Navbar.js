@@ -32,7 +32,7 @@ function Navbar() {
                             </li>
                         </ul>
                         <div>
-                            <a className="nav-link text-light" href="https://abes.ac.in/"><i class="fa-solid fa-circle-info"></i> Know More About Us!</a>
+                            <a className="nav-link text-light" href="https://abes.ac.in/"><i className="fa-solid fa-circle-info"></i> Know More About Us!</a>
                         </div>
                     </div>
                 </div>
