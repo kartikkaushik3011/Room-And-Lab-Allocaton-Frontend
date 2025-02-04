@@ -3,6 +3,13 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import RoomLabSection from "./RoomLabSection";
+import "./Shimmer.css";
+
+const ShimmerEffect = () => (
+    <div className="shimmer-wrapper">
+        <div className="shimmer"></div>
+    </div>
+);
 
 function Rooms() {
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -20,11 +27,12 @@ function Rooms() {
     const [filterAvailable, setFilterAvailable] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState("All Rooms");
     const [selectedDay, setSelectedDay] = useState("All Days");
+
     const removeFilter = () => {
         setFilterAvailable(false);
         setSelectedRoom("All Rooms");
         setSelectedDay("All Days");
-    }
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -38,9 +46,20 @@ function Rooms() {
                 console.error(err);
                 setLoading(false);
             });
-    }, [block_code,apiUrl]);
+    }, [block_code, apiUrl]);
 
-    if (loading) return <p>Loading rooms...</p>;
+    if (loading) {
+        return (
+            <>
+                <RoomLabSection block_code={block_code} />
+                <div className="shimmer-container">
+                    {[...Array(5)].map((_, index) => (
+                        <ShimmerEffect key={index} />
+                    ))}
+                </div>
+            </>
+        );
+    }
 
     if (!roomData[currBlock] || !roomData[currBlock][place]) {
         return <p>No data available for {currBlock} {place}.</p>;
@@ -64,14 +83,12 @@ function Rooms() {
                 }))
         }));
 
-
     const uniqueRooms = ["All Rooms", ...new Set(data.map((room) => room.room_no))];
     const uniqueDays = ["All Days", ...new Set(data.flatMap((room) => room.days.map((day) => day.day)))];
 
     return (
         <>
             <RoomLabSection block_code={block_code} />
-
             <div className="filterBar d-flex border-top border-black align-items-center justify-content-between" style={{ width: "100%", padding: "10px", backgroundColor: "rgb(73 75 77 / 68%)" }}>
                 <div className="d-flex gap-1">
                     <h3 style={{ color: "white" }}>Filters <i className="fa-solid fa-filter"></i> :  </h3>
@@ -81,11 +98,13 @@ function Rooms() {
                     >
                         {filterAvailable ? "Show All Slots" : "Show Only Available Slots"}
                     </button>
-                    {filterAvailable || selectedRoom !== "All Rooms" || selectedDay !== "All Days" ? (<button className="btn btn-outline-light btn-sm m-1" onClick={(removeFilter)}>Clear Filters</button>) : ""}
+                    {filterAvailable || selectedRoom !== "All Rooms" || selectedDay !== "All Days" ? (
+                        <button className="btn btn-outline-light btn-sm m-1" onClick={removeFilter}>Clear Filters</button>
+                    ) : ""}
                 </div>
                 <div className="d-flex gap-2">
                     <select
-                        className="form-select "
+                        className="form-select"
                         value={selectedRoom}
                         onChange={(e) => setSelectedRoom(e.target.value)}
                     >
@@ -122,7 +141,7 @@ function Rooms() {
                         </h2>
                         <div
                             id={`collapse${index}`}
-                            className={`accordion-collapse collapse `}
+                            className={`accordion-collapse collapse`}
                             data-bs-parent="#accordionExample"
                         >
                             <div className="accordion-body">

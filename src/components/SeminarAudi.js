@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import RoomLabSection from "./RoomLabSection";
+import "./Shimmer.css";
 
 function SeminarAudi() {
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -13,6 +14,12 @@ function SeminarAudi() {
     const [filterAvailable, setFilterAvailable] = useState(false);
     const [selectedSeminar, setSelectedSeminar] = useState("All Venues");
     const [selectedDay, setSelectedDay] = useState("All Dates");
+
+    const ShimmerEffect = () => (
+        <div className="shimmer-wrapper">
+            <div className="shimmer"></div>
+        </div>
+    );
 
     const blocks = {
         ab: "Aryabhatta",
@@ -47,7 +54,18 @@ function SeminarAudi() {
             });
     }, [apiUrl]);
 
-    if (loading) return <p>Loading seminar booking data...</p>;
+    if (loading) {
+        return (
+            <>
+                <RoomLabSection block_code={block_code} />
+                <div className="shimmer-container">
+                    {[...Array(5)].map((_, index) => (
+                        <ShimmerEffect key={index} />
+                    ))}
+                </div>
+            </>
+        );
+    }
     if (error) return <p>{error}</p>;
     if (!currBlock || !bookingData[currBlock]) return <p>No booking data available for the selected block.</p>;
 
