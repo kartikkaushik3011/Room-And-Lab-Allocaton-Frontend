@@ -1,5 +1,6 @@
 import React from 'react';
 import buildingImage from './assets/abesec-building.jpeg';
+import { Link } from 'react-router-dom';
 
 function Header() {
     const jumbotronStyle = {
@@ -29,7 +30,7 @@ function Header() {
                 <hr className="my-4" />
                 <p style={slideInAnimation}>To know more about the website, click on the button below.</p>
                 <p className="lead" style={slideInAnimation}>
-                    <button className="btn btn-outline-light" type="submit" style={{ marginLeft: "10px" }}>Learn More</button>
+                    <Link to="/"><button className="btn btn-outline-light" type="submit" style={{ marginLeft: "10px" }}>Learn More</button></Link>
                 </p>
             </div>
         </>
