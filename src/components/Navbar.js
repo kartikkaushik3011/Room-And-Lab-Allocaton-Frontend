@@ -1,7 +1,17 @@
 import React from 'react';
 import { Link } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../api';
 
-function Navbar() {
+function Navbar({ user, setUser }) {
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await logout();
+        setUser(null);
+        navigate('/');
+    };
     return (
         <>
             <nav className="navbar navbar-dark sticky-top navbar-expand-lg border-bottom border-black" style={{ backgroundColor: "rgb(73 75 77 / 68%)", }}>
@@ -31,9 +41,19 @@ function Navbar() {
                                 </ul>
                             </li>
                         </ul>
-                        <div>
-                            <a className="nav-link text-light" href="https://abes.ac.in/"><i className="fa-solid fa-circle-info"></i> Know More About Us!</a>
-                        </div>
+                        <div style={{"display":"flex", "gap":"10px"}}>{
+                            (user)?
+                            (user.isAdmin?
+                            <>
+                            <Link className="nav-link text-light" to="/pendingRequests">Requests</Link>
+                            <Link className="nav-link text-light" to="/signup">New User</Link>
+                            <button className="nav-link text-light" onClick={handleLogout}>Logout</button>
+                            </>
+                            :
+                            <button className="nav-link text-light" onClick={handleLogout}>Logout</button>) 
+                            :
+                            <Link className="nav-link text-light" to="/login">Login</Link>
+                        }</div>
                     </div>
                 </div>
             </nav>

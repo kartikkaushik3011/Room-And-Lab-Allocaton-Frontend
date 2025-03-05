@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import formImage from "./assets/abes-logo.png"
+import { bookSeminar } from '../api';
+import formImage from "./assets/abes-logo.png";
 
 function BookSeminar() {
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const { block_code, seminar, date, slot } = useParams();
     const [formData, setFormData] = useState({ faculty_name: "", purpose: "" });
     const navigate = useNavigate();
@@ -14,29 +13,28 @@ function BookSeminar() {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.faculty_name || !formData.purpose) {
             alert("Please fill in all fields before submitting.");
             return;
         }
-        axios
-            .post(`${apiUrl}/bookSeminar/${block_code}/${seminar}/${date}/${slot}`, formData)
-            .then(() => {
-                setFormData({ faculty_name: "", subject_code: "" });
-                navigate(`/confirmationSeminar/${block_code}/${seminar}/${date}/${slot}`);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                alert("An error occurred while booking. Please try again.");
-            });
+        try {
+            await bookSeminar(block_code, seminar, date, slot, formData);
+            setFormData({ faculty_name: "", purpose: "" });
+            navigate(`/confirmationSeminar/${block_code}/${seminar}/${date}/${slot}`);
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while booking. Please try again.");
+        }
     };
+
     return (
         <div className="row justify-content-center" style={{ width: "100%", marginTop: "4vh" }}>
             <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div className="card" style={{ borderRadius: "1rem" }}>
                     <div className="card-body p-3 text-center" style={{ boxShadow: '0 8px 16px rgba(0, 0, 0, 0.8)', borderRadius: "10px" }}>
-                        <div className="md-5 pb-2" >
+                        <div className="md-5 pb-2">
                             <form onSubmit={handleSubmit}>
                                 <img className='pb-2' src={formImage} alt="ABES" />
                                 <h1 className="fw-bold mb-3">Enter Details:</h1>
@@ -54,7 +52,7 @@ function BookSeminar() {
                                     <input type="text"
                                         placeholder="Purpose"
                                         name="purpose"
-                                        value={formData.subject_code}
+                                        value={formData.purpose}
                                         onChange={handleInputChange}
                                         className="form-control form-control-lg"
                                     />
@@ -70,4 +68,4 @@ function BookSeminar() {
     );
 }
 
-export default BookSeminar
+export default BookSeminar;

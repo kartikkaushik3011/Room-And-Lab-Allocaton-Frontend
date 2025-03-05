@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import formImage from "./assets/abes-logo.png"
+import { bookRoom } from '../api';
+import formImage from "./assets/abes-logo.png";
 
 function Book() {
-  const apiUrl = process.env.REACT_APP_BACKEND_URL;
   const { room_no, block_code, place, slot, day } = useParams();
   const [formData, setFormData] = useState({ faculty_name: "", subject_code: "" });
   const navigate = useNavigate();
@@ -14,22 +13,20 @@ function Book() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.faculty_name || !formData.subject_code) {
       alert("Please fill in all fields before submitting.");
       return;
     }
-    axios
-      .post(`${apiUrl}/book/${place}/${block_code}/${room_no}/${day}/${slot}`, formData)
-      .then(() => {
-        setFormData({ faculty_name: "", subject_code: "" });
-        navigate(`/confirmation/${place}/${block_code}/${room_no}/${day}/${slot}`);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("An error occurred while booking. Please try again.");
-      });
+    try {
+      await bookRoom(place, block_code, room_no, day, slot, formData);
+      setFormData({ faculty_name: "", subject_code: "" });
+      navigate(`/confirmation/${place}/${block_code}/${room_no}/${day}/${slot}`);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while booking. Please try again.");
+    }
   };
 
   return (
@@ -37,7 +34,7 @@ function Book() {
       <div className="col-12 col-md-8 col-lg-6 col-xl-5">
         <div className="card" style={{ borderRadius: "1rem" }}>
           <div className="card-body p-3 text-center" style={{ boxShadow: '0 8px 16px rgba(0, 0, 0, 0.8)', borderRadius: "10px" }}>
-            <div className="md-5 pb-2" >
+            <div className="md-5 pb-2">
               <form onSubmit={handleSubmit}>
                 <img className='pb-2' src={formImage} alt="ABES" />
                 <h1 className="fw-bold mb-3">Enter Details:</h1>

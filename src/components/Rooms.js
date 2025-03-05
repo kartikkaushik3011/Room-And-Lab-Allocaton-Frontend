@@ -11,8 +11,7 @@ const ShimmerEffect = () => (
     </div>
 );
 
-function Rooms() {
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
+function Rooms(user) {
     const { place, block_code } = useParams();
     const blocks = {
         ab: "Aryabhatta",
@@ -37,7 +36,7 @@ function Rooms() {
     useEffect(() => {
         setLoading(true);
         axios
-            .get(`${apiUrl}/roomData/${block_code}`)
+            .get(`http://localhost:3000/roomData/${block_code}`)
             .then((response) => {
                 setRoomData(response.data);
                 setLoading(false);
@@ -46,7 +45,7 @@ function Rooms() {
                 console.error(err);
                 setLoading(false);
             });
-    }, [block_code, apiUrl]);
+    }, [block_code]);
 
     if (loading) {
         return (

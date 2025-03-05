@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { fetchSeminarAudiData } from '../api';
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import RoomLabSection from "./RoomLabSection";
@@ -38,21 +38,22 @@ function SeminarAudi() {
     };
 
     useEffect(() => {
-        setLoading(true);
-        setError(null);
-
-        axios
-            .get(`${apiUrl}/seminarAudiData`)
-            .then((response) => {
-                setBookingData(response.data);
-                setLoading(false);
-            })
-            .catch((err) => {
+        const loadData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const data = await fetchSeminarAudiData();
+                setBookingData(data);
+            } catch (err) {
                 setError("Failed to load booking data.");
-                setLoading(false);
                 console.error(err);
-            });
-    }, [apiUrl]);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        loadData();
+    }, []);
 
     if (loading) {
         return (

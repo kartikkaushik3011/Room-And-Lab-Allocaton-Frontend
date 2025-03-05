@@ -26,7 +26,7 @@ function Confirmation() {
                 alignItems:"center"
             }}
         >
-            <h3 className='mb-4'><i class="fa-regular fa-circle-check"></i> Booking Successful!</h3>
+            <h3 className='mb-4'><i class="fa-regular fa-circle-check"></i> Request Sent!</h3>
             <hr  />
             <div className='d-flex gap-2 mt-4'>
                 <div className='d-flex flex-column gap-1' style={{width:"25%"}}>
@@ -52,7 +52,7 @@ function Confirmation() {
                 
             </div>
             {/* <h2 style={{color:"black", fontSize:"4.5vh"}}>Your Booking for {room_no} on {day} in {currBlock} Block for the slot {slot} has been done Successfully!</h2> */}
-            <Link to={`/${place}/${block_code}`} className="btn btn-outline-dark mt-4 mb-3" type="submit" style={{ marginTop: "10px" }}>Check Status</Link>
+            <Link to={`/${place}/${block_code}`} className="btn btn-outline-dark mt-4 mb-3" type="submit" style={{ marginTop: "10px" }}>Go Back</Link>
         </div>
     )
 }
