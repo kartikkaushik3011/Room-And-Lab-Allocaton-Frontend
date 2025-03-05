@@ -6,7 +6,6 @@ import RoomLabSection from "./RoomLabSection";
 import "./Shimmer.css";
 
 function SeminarAudi() {
-    const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const { block_code } = useParams();
     const [bookingData, setBookingData] = useState({});
     const [loading, setLoading] = useState(true);

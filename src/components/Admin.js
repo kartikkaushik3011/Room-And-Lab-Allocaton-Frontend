@@ -48,7 +48,7 @@ const Admin = () => {
 
     useEffect(() => {
         loadRequests();
-    }, []); 
+    }, [loadRequests]); 
 
     return (
         <div className="container mt-4">
