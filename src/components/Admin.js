@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import RequestCard from "./RequestCard";
 
 const Admin = () => {
@@ -31,24 +31,25 @@ const Admin = () => {
         });
     };
 
-    const loadRequests = async () => {
+    // ✅ Wrap loadRequests in useCallback to stabilize it
+    const loadRequests = useCallback(async () => {
         const data = await fetchPendingRequests();
         setRequests(Array.isArray(data) ? data : []);  // Safeguard
-    };
+    }, []);  // No external dependencies inside loadRequests
 
     const handleApprove = async (index) => {
         await approveRequest(index);
-        loadRequests();
+        loadRequests();  // Still works because loadRequests is stable
     };
 
     const handleReject = async (index) => {
         await rejectRequest(index);
-        loadRequests();
+        loadRequests();  // Same here
     };
 
     useEffect(() => {
         loadRequests();
-    }, [loadRequests]); 
+    }, [loadRequests]);  // No warning because loadRequests is now memoized
 
     return (
         <div className="container mt-4">
