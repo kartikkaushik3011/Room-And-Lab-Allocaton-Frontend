@@ -2,8 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import RequestCard from "./RequestCard";
 
 const Admin = () => {
-    const BASE_URL = "http://localhost:3000";
-
+    const BASE_URL = process.env.REACT_APP_API_URL;                                
     const [requests, setRequests] = useState([]);
 
     const fetchPendingRequests = async () => {

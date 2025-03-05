@@ -26,7 +26,7 @@ function Rooms(user) {
     const [filterAvailable, setFilterAvailable] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState("All Rooms");
     const [selectedDay, setSelectedDay] = useState("All Days");
-
+    const apiURL = process.env.REACT_APP_API_URL;
     const removeFilter = () => {
         setFilterAvailable(false);
         setSelectedRoom("All Rooms");
@@ -36,7 +36,7 @@ function Rooms(user) {
     useEffect(() => {
         setLoading(true);
         axios
-            .get(`http://localhost:3000/roomData/${block_code}`)
+            .get(`${apiURL}/roomData/${block_code}`)
             .then((response) => {
                 setRoomData(response.data);
                 setLoading(false);
