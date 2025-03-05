@@ -26,7 +26,7 @@ function Rooms(user) {
     const [filterAvailable, setFilterAvailable] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState("All Rooms");
     const [selectedDay, setSelectedDay] = useState("All Days");
-    const apiURL = process.env.REACT_APP_API_URL;
+    const apiURL = process.env.REACT_APP_BACKEND_URL;
     const removeFilter = () => {
         setFilterAvailable(false);
         setSelectedRoom("All Rooms");
