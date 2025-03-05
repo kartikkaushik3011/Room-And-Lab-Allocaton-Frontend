@@ -1,55 +1,28 @@
 import React, { useEffect, useState, useCallback } from "react";
 import RequestCard from "./RequestCard";
+import { fetchPendingRequests, approveRequest, rejectRequest } from "../api";
 
 const Admin = () => {
-    const BASE_URL = process.env.REACT_APP_API_URL;                                
     const [requests, setRequests] = useState([]);
 
-    const fetchPendingRequests = async () => {
-        const res = await fetch(`${BASE_URL}/pendingRequests`, {
-            credentials: "include"  // Include authToken cookie
-        });
-        return res.json();
-    };
-    
-    const approveRequest = async (index) => {
-        await fetch(`${BASE_URL}/approveRequest`, {
-            method: "POST",
-            credentials: "include",  // Include authToken cookie
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ index })
-        });
-    };
-    
-    const rejectRequest = async (index) => {
-        await fetch(`${BASE_URL}/rejectRequest`, {
-            method: "POST",
-            credentials: "include",  // Include authToken cookie
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ index })
-        });
-    };
-
-    // ✅ Wrap loadRequests in useCallback to stabilize it
     const loadRequests = useCallback(async () => {
         const data = await fetchPendingRequests();
-        setRequests(Array.isArray(data) ? data : []);  // Safeguard
-    }, []);  // No external dependencies inside loadRequests
+        setRequests(Array.isArray(data) ? data : []); 
+    }, []); 
 
     const handleApprove = async (index) => {
         await approveRequest(index);
-        loadRequests();  // Still works because loadRequests is stable
+        loadRequests(); 
     };
 
     const handleReject = async (index) => {
         await rejectRequest(index);
-        loadRequests();  // Same here
+        loadRequests();  
     };
 
     useEffect(() => {
         loadRequests();
-    }, [loadRequests]);  // No warning because loadRequests is now memoized
-
+    }, [loadRequests]);  
     return (
         <div className="container mt-4">
             <h1 className="text-center text-white mb-4">Admin Panel - Pending Requests</h1>

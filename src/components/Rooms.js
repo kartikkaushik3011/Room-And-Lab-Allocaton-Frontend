@@ -45,7 +45,7 @@ function Rooms(user) {
                 console.error(err);
                 setLoading(false);
             });
-    }, [block_code]);
+    }, [block_code, apiURL]);    
 
     if (loading) {
         return (
