@@ -1,6 +1,5 @@
 import React from 'react';
 import buildingImage from './assets/abesec-building.jpeg';
-import { Link } from 'react-router-dom';
 
 function Header() {
     const jumbotronStyle = {
@@ -28,9 +27,9 @@ function Header() {
                 <h1 className="display-5" style={slideInAnimation}>Room & Lab Allocation</h1>
                 <p className="lead" style={slideInAnimation}>Select the Block in which you want to check the available rooms and labs</p>
                 <hr className="my-4" />
-                <p style={slideInAnimation}>To know more about the website, click on the button below.</p>
+                <p style={slideInAnimation}>To know more about our Institute, click on the button below.</p>
                 <p className="lead" style={slideInAnimation}>
-                    <Link to="/"><button className="btn btn-outline-light" type="submit" style={{ marginLeft: "10px" }}>Learn More</button></Link>
+                    <a href="https://abes.ac.in"><button className="btn btn-outline-light" type="submit" style={{ marginLeft: "10px" }}>Learn More</button></a>
                 </p>
             </div>
         </>
